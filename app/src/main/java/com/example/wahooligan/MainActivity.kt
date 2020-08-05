@@ -1,29 +1,21 @@
 package com.example.wahooligan
 
-import BindingActivity
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.ScriptGroup
+import android.view.View
 
 
 class MainActivity : AppCompatActivity() {
-
-
-
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-            BindingActivity()
-    }
+                val intent = Intent(this, BindingActivity::class.java)
+                startActivity(intent)
 
 
-
-
-
+        }
 
 
 }

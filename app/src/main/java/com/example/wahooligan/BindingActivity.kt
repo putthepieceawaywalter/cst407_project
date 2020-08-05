@@ -1,4 +1,4 @@
-import android.app.Activity
+package com.example.wahooligan
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -6,11 +6,12 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
-import com.example.wahooligan.HardwareService
-import com.example.wahooligan.R
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.binding.*
 
-class BindingActivity : Activity() {
+class BindingActivity : AppCompatActivity() {
     private lateinit var mService: HardwareService
     private var mBound: Boolean = false
 
@@ -24,6 +25,8 @@ class BindingActivity : Activity() {
             val binder = service as HardwareService.LocalBinder
             mService = binder.service
             mBound = true
+
+
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
@@ -35,7 +38,14 @@ class BindingActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.binding)
+
+        val button = findViewById<Button>(R.id.button)
+        button?.setOnClickListener() {
+           // val accel = accelData().toString();
+           // Toast.makeText(this, accel, Toast.LENGTH_LONG).show()
+            accelData()s
+        }
     }
 
     override fun onStart() {
@@ -52,15 +62,38 @@ class BindingActivity : Activity() {
         mBound = false
     }
 
-    /** Called when a button is clicked (the button in the layout file attaches to
-     * this method with the android:onClick attribute)  */
-    fun onButtonClick(v: View) {
+
+    fun heartRate() {
         if (mBound) {
-            // Call a method from the LocalService.
-            // However, if this call were something that might hang, then this request should
-            // occur in a separate thread to avoid slowing down the activity performance.
-            val num: Int = mService.randomNumber
-            Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
+            val heartRate = mService.getHeartRateData();
         }
     }
+    fun accelData() {
+        if (mBound) {
+            val accelData = mService.getAccelerometerData();
+            numView.text = accelData.toString();
+        }
+    }
+
+
+
+
+    /** Called when a button is clicked (the button in the layout file attaches to
+     * this method with the android:onClick attribute)  */
+//    fun onButtonClick(v: View) {
+//        if (mBound) {
+//            // Call a method from the LocalService.
+//            // However, if this call were something that might hang, then this request should
+//            // occur in a separate thread to avoid slowing down the activity performance.
+//            val num: Int = mService.randomNumber
+//            Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
+//
+//            numView.text = num.toString()
+//        }
+//    }
+
+
+
+
+
 }
